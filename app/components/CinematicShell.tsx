@@ -19,7 +19,7 @@ export default function CinematicShell({ children }: { children: React.ReactNode
   const currentIndex = MENU_ITEMS.find((item) => item.href === pathname)?.index ?? "01";
 
   return (
-    <main className="relative bg-[#050505] text-[#f4f1eb] font-serif overflow-x-hidden">
+    <main className="relative overflow-x-hidden bg-[#050505] font-serif text-[#f4f1eb]">
       <AnimatePresence>
         {menuOpen && (
           <motion.div
@@ -27,11 +27,11 @@ export default function CinematicShell({ children }: { children: React.ReactNode
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: 80 }}
             transition={{ duration: 0.35, ease: "easeOut" }}
-            className="fixed inset-0 z-[999] bg-[#b89b5e]/90 text-white"
+            className="fixed inset-0 z-[9999] pointer-events-auto bg-[#b89b5e]/90 text-white"
           >
             <button
               onClick={() => setMenuOpen(false)}
-              className="absolute right-6 top-8 text-xs uppercase tracking-[0.4em] md:right-10"
+              className="absolute right-6 top-8 touch-manipulation px-2 py-1 text-xs uppercase tracking-[0.4em] md:right-10"
             >
               Close
             </button>
@@ -42,7 +42,7 @@ export default function CinematicShell({ children }: { children: React.ReactNode
                   key={item.href}
                   href={item.href}
                   onClick={() => setMenuOpen(false)}
-                  className="block transition-all duration-300 hover:translate-x-[-8px] hover:text-black/85"
+                  className="block touch-manipulation py-1 transition-all duration-300 hover:translate-x-[-8px] hover:text-black/85"
                 >
                   {item.label} <span className="text-white/40">/{item.index}</span>
                 </Link>
@@ -52,14 +52,14 @@ export default function CinematicShell({ children }: { children: React.ReactNode
         )}
       </AnimatePresence>
 
-      <header className="pointer-events-none absolute left-0 top-0 z-[120] flex w-full items-center justify-center px-5 py-6 text-[#d8c28a] sm:px-8 sm:py-8">
-        <p className="text-3xl font-light tracking-widest sm:text-4xl md:text-5xl">LS</p>
+      <header className="pointer-events-none absolute left-0 top-0 z-[120] flex w-full items-center justify-center px-8 py-8 text-[#d8c28a] max-sm:px-5 max-sm:py-6">
+        <p className="text-4xl font-light tracking-widest md:text-5xl max-sm:text-3xl">LS</p>
       </header>
 
-      <aside className="fixed right-0 top-0 z-[130] flex h-[100dvh] w-14 flex-col items-center justify-center border-l border-[#b89b5e]/25 bg-black/30 text-[#d8c28a] backdrop-blur-[2px] sm:w-16 md:w-20">
+      <aside className="fixed right-0 top-0 z-[130] flex h-full w-16 flex-col items-center justify-center border-l border-[#b89b5e]/25 bg-black/15 text-[#d8c28a] backdrop-blur-[2px] max-sm:w-14 max-sm:bg-black/30 md:w-20">
         <button
           onClick={() => setMenuOpen(true)}
-          className="absolute top-14 rotate-90 px-2 py-1 text-[9px] uppercase tracking-[0.3em] transition-opacity hover:opacity-70 sm:top-16 sm:text-[10px] sm:tracking-[0.35em] md:top-20 md:text-xs"
+          className="absolute top-16 rotate-90 touch-manipulation px-2 py-1 text-[10px] uppercase tracking-[0.35em] transition-opacity hover:opacity-70 max-sm:top-14 max-sm:text-[9px] max-sm:tracking-[0.3em] md:top-20 md:text-xs"
         >
           Menu
         </button>
@@ -77,7 +77,7 @@ export default function CinematicShell({ children }: { children: React.ReactNode
           ))}
         </div>
 
-        <p className="absolute bottom-12 text-lg sm:bottom-14 sm:text-xl md:bottom-20 md:text-2xl">{currentIndex}</p>
+        <p className="absolute bottom-14 text-xl md:bottom-20 md:text-2xl max-sm:bottom-12 max-sm:text-lg">{currentIndex}</p>
       </aside>
 
       <AnimatePresence mode="wait">
@@ -87,7 +87,7 @@ export default function CinematicShell({ children }: { children: React.ReactNode
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.35, ease: "easeOut" }}
-          className="pr-14 sm:pr-16 md:pr-20"
+          className="pr-16 md:pr-20 max-sm:pr-14"
         >
           {children}
         </motion.div>
