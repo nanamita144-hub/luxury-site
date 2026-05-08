@@ -27,7 +27,7 @@ export default function Home() {
       <section onMouseMove={handleMouseMove} className="relative min-h-[100svh] w-full overflow-hidden bg-black md:min-h-screen">
         <motion.video
           style={{ x: bgX, y: bgY, scale: 1.12 }}
-          className="absolute inset-0 z-0 h-full w-full object-cover"
+          className="pointer-events-none absolute inset-0 z-0 h-full w-full object-cover"
           autoPlay
           muted
           loop
@@ -39,7 +39,7 @@ export default function Home() {
           <source src="/Instalation.mov" type="video/quicktime" />
         </motion.video>
 
-        <div className="absolute inset-0 z-10 bg-black/55" />
+        <div className="pointer-events-none absolute inset-0 z-10 bg-black/55" />
         <motion.div style={{ background: reveal }} className="pointer-events-none absolute inset-0 z-20 mix-blend-screen" />
 
         <motion.div style={{ x: fogX, y: fogY }} animate={{ opacity: [0.3, 0.65, 0.3], scale: [1, 1.18, 1] }} transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }} className="pointer-events-none absolute -left-80 -top-80 z-30 h-[700px] w-[700px] rounded-full bg-white/20 blur-[150px] sm:-left-64 sm:-top-64 sm:h-[850px] sm:w-[850px] sm:blur-[180px]" />
@@ -53,7 +53,7 @@ export default function Home() {
           <p className="mt-6 max-w-[18rem] text-[10px] uppercase leading-relaxed tracking-[0.14em] text-[#d8d0c3] sm:mt-8 sm:max-w-xl sm:text-xs sm:leading-loose sm:tracking-[0.18em] md:text-base">Strategy, content, and digital presence for brands that need to be seen.</p>
         </motion.div>
 
-        <a href="#section-two" className="absolute bottom-6 left-1/2 z-[100] flex -translate-x-1/2 cursor-pointer flex-col items-center gap-1 text-[9px] uppercase tracking-[0.35em] text-[#d8c28a] transition-opacity hover:opacity-80 sm:bottom-8 sm:text-[10px] sm:tracking-[0.4em]">
+        <a href="#section-two" className="pointer-events-auto absolute bottom-6 left-1/2 z-[160] flex -translate-x-1/2 cursor-pointer flex-col items-center gap-1 text-[9px] uppercase tracking-[0.35em] text-[#d8c28a] transition-opacity hover:opacity-80 sm:bottom-8 sm:text-[10px] sm:tracking-[0.4em]">
           <span>Scroll</span>
           <span className="text-6xl leading-none">⌄</span>
         </a>
