@@ -24,7 +24,7 @@ export default function Home() {
 
   return (
     <CinematicShell>
-      <section onMouseMove={handleMouseMove} className="relative min-h-[100svh] w-full overflow-hidden bg-black">
+      <section onMouseMove={handleMouseMove} className="relative min-h-[100svh] w-full overflow-hidden bg-black md:min-h-screen">
         <motion.video
           style={{ x: bgX, y: bgY, scale: 1.12 }}
           className="absolute inset-0 z-0 h-full w-full object-cover"
@@ -32,8 +32,11 @@ export default function Home() {
           muted
           loop
           playsInline
+          preload="auto"
+          poster="/window.svg"
         >
-          <source src="/Instalation.mov" />
+          <source src="/Instalation.mp4" type="video/mp4" />
+          <source src="/Instalation.mov" type="video/quicktime" />
         </motion.video>
 
         <div className="absolute inset-0 z-10 bg-black/55" />
@@ -44,7 +47,7 @@ export default function Home() {
         <motion.div animate={{ opacity: [0.2, 0.5, 0.2], scale: [1, 1.15, 1] }} transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }} className="pointer-events-none absolute -bottom-72 -left-40 z-30 h-[680px] w-[900px] rounded-full bg-[#b89b5e]/20 blur-[150px] sm:left-20 sm:h-[800px] sm:w-[1100px] sm:blur-[190px]" />
         <div className="pointer-events-none absolute inset-3 z-40 border border-[#b89b5e]/40 sm:inset-4 md:inset-8" />
 
-        <motion.div style={{ x: textX, y: textY }} className="relative z-50 flex h-full flex-col items-center justify-center px-5 pb-20 pt-24 text-center sm:px-6 sm:pb-16 sm:pt-28">
+        <motion.div style={{ x: textX, y: textY }} className="relative z-50 flex min-h-[100svh] flex-col items-center justify-center px-5 pb-20 pt-24 text-center md:h-screen md:min-h-0 md:px-6 md:pb-16 md:pt-28">
           <p className="mb-5 text-[10px] uppercase tracking-[0.35em] text-[#c9bda8] sm:mb-6 sm:text-xs sm:tracking-[0.45em]">Marketing Studio</p>
           <h1 className="text-[2.2rem] font-light uppercase tracking-[0.12em] text-[#d8c28a] sm:text-5xl sm:tracking-[0.16em] md:text-8xl lg:text-9xl">Lov Studio</h1>
           <p className="mt-6 max-w-[18rem] text-[10px] uppercase leading-relaxed tracking-[0.14em] text-[#d8d0c3] sm:mt-8 sm:max-w-xl sm:text-xs sm:leading-loose sm:tracking-[0.18em] md:text-base">Strategy, content, and digital presence for brands that need to be seen.</p>
