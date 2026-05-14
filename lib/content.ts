@@ -19,6 +19,10 @@ export async function getContact() {
   return await reader.singletons.contact.read();
 }
 
+export async function getDesign() {
+  return await reader.singletons.design.read();
+}
+
 export async function getWorks() {
   const slugs = await reader.collections.works.list();
   const items = await Promise.all(

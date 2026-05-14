@@ -92,6 +92,72 @@ export default config({
         ),
       },
     }),
+
+    // ─── Design tokens ──────────────────────────────────────────────────────
+    // Edit colors & fonts site-wide from the admin panel.
+    // Hex values only (e.g. #b89b5e). Changes go live on next deploy.
+    design: singleton({
+      label: "Design & Branding",
+      path: "content/design",
+      schema: {
+        // ── Colors ──────────────────────────────────────────────────────────
+        colorBackground: fields.text({
+          label: "Page Background",
+          description: "Main site background. Default: #050505 (near-black).",
+          defaultValue: "#050505",
+        }),
+        colorGold: fields.text({
+          label: "Accent Color – Main",
+          description: "Primary gold/accent used for borders and highlights. Default: #b89b5e.",
+          defaultValue: "#b89b5e",
+        }),
+        colorGoldLight: fields.text({
+          label: "Accent Color – Light",
+          description: "Lighter gold for headings. Default: #d8c28a.",
+          defaultValue: "#d8c28a",
+        }),
+        colorGoldSoft: fields.text({
+          label: "Accent Color – Soft",
+          description: "Muted gold for labels. Default: #c9bda8.",
+          defaultValue: "#c9bda8",
+        }),
+        colorGoldMist: fields.text({
+          label: "Accent Color – Mist",
+          description: "Faintest accent. Default: #a89678.",
+          defaultValue: "#a89678",
+        }),
+        colorLinen: fields.text({
+          label: "Body Text Color",
+          description: "Main readable text. Default: #f4f1eb (warm linen).",
+          defaultValue: "#f4f1eb",
+        }),
+        // ── Fonts ────────────────────────────────────────────────────────────
+        serifFont: fields.select({
+          label: "Heading Font",
+          description: "Used for all large display headings.",
+          options: [
+            { label: "Cormorant Garamond (current)", value: "cormorant" },
+            { label: "Playfair Display", value: "playfair" },
+            { label: "DM Serif Display", value: "dm-serif" },
+            { label: "Libre Baskerville", value: "baskerville" },
+            { label: "Lora", value: "lora" },
+          ],
+          defaultValue: "cormorant",
+        }),
+        sansFont: fields.select({
+          label: "UI / Label Font",
+          description: "Used for navigation, labels, and small caps.",
+          options: [
+            { label: "Raleway (current)", value: "raleway" },
+            { label: "Montserrat", value: "montserrat" },
+            { label: "Inter", value: "inter" },
+            { label: "Jost", value: "jost" },
+            { label: "DM Sans", value: "dm-sans" },
+          ],
+          defaultValue: "raleway",
+        }),
+      },
+    }),
   },
 
   collections: {
