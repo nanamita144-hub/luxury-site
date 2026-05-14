@@ -1,8 +1,7 @@
 "use client";
-
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
 const MENU_ITEMS = [
@@ -16,82 +15,191 @@ const MENU_ITEMS = [
 export default function CinematicShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const [menuOpen, setMenuOpen] = useState(false);
-  const currentIndex = MENU_ITEMS.find((item) => item.href === pathname)?.index ?? "01";
+
+  useEffect(() => {
+    document.body.style.overflow = menuOpen ? "hidden" : "";
+    return () => { document.body.style.overflow = ""; };
+  }, [menuOpen]);
+
+  function openMenu() {
+    setMenuOpen(true);
+  }
+
+  function closeMenu() {
+    setMenuOpen(false);
+  }
 
   return (
-    <main className="relative overflow-x-hidden bg-[#050505] font-serif text-[#f4f1eb]">
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div
-            initial={{ opacity: 0, x: 80 }}
-            animate={{ opacity: 1, x: 0 }}
-            exit={{ opacity: 0, x: 80 }}
-            transition={{ duration: 0.35, ease: "easeOut" }}
-            className="fixed inset-0 z-[9999] pointer-events-auto bg-[#b89b5e]/90 text-white"
-          >
-            <button
-              onClick={() => setMenuOpen(false)}
-              className="absolute right-6 top-8 touch-manipulation px-2 py-1 text-xs uppercase tracking-[0.4em] md:right-10"
-            >
-              Close
-            </button>
+    <main style={{ position: "relative", background: "#050505", color: "#f4f1eb" }}>
 
-            <nav className="flex h-full flex-col justify-center gap-4 px-8 text-right text-2xl font-bold uppercase leading-tight md:px-24 md:text-6xl">
-              {MENU_ITEMS.map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  onClick={() => setMenuOpen(false)}
-                  className="block touch-manipulation py-1 transition-all duration-300 hover:translate-x-[-8px] hover:text-black/85"
-                >
-                  {item.label} <span className="text-white/40">/{item.index}</span>
-                </Link>
-              ))}
-            </nav>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {/* TOP NAV */}
+      <div
+        style={{
+          position: "fixed",
+          top: 0,
+          left: 0,
+          right: 0,
+          zIndex: 500,
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "space-between",
+          padding: "20px 24px",
+          pointerEvents: "auto",
+        }}
+      >
+        <Link
+          href="/"
+          style={{
+            fontSize: "1.5rem",
+            fontWeight: 300,
+            letterSpacing: "0.2em",
+            color: "#d8c28a",
+            textDecoration: "none",
+            pointerEvents: "auto",
+          }}
+        >
+          LS
+        </Link>
 
-      <header className="pointer-events-none absolute left-0 top-0 z-[120] flex w-full items-center justify-center px-8 py-8 text-[#d8c28a] max-sm:px-5 max-sm:py-6">
-        <p className="text-4xl font-light tracking-widest md:text-5xl max-sm:text-3xl">LS</p>
-      </header>
-
-      <aside className="fixed right-0 top-0 z-[130] flex h-full w-16 flex-col items-center justify-center border-l border-[#b89b5e]/25 bg-black/15 text-[#d8c28a] backdrop-blur-[2px] max-sm:w-14 max-sm:bg-black/30 md:w-20">
-        <button
-          onClick={() => setMenuOpen(true)}
-          className="absolute top-16 rotate-90 touch-manipulation px-2 py-1 text-[10px] uppercase tracking-[0.35em] transition-opacity hover:opacity-70 max-sm:top-14 max-sm:text-[9px] max-sm:tracking-[0.3em] md:top-20 md:text-xs"
+        {/* MENU BUTTON — div instead of button, Safari proof */}
+        <div
+          onTouchEnd={(e) => { e.preventDefault(); openMenu(); }}
+          onClick={openMenu}
+          role="button"
+          aria-label="Open menu"
+          style={{
+            cursor: "pointer",
+            padding: "14px 18px",
+            fontSize: "11px",
+            letterSpacing: "0.4em",
+            textTransform: "uppercase",
+            color: "#d8c28a",
+            pointerEvents: "auto",
+            WebkitTapHighlightColor: "transparent",
+            userSelect: "none",
+            zIndex: 500,
+          }}
         >
           Menu
-        </button>
-
-        <div className="flex flex-col items-center gap-7 md:gap-8">
-          {MENU_ITEMS.map((item) => (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`h-2 w-2 rounded-full border transition-all duration-300 hover:scale-125 hover:bg-[#d8c28a] ${
-                pathname === item.href ? "border-[#d8c28a] bg-[#d8c28a]" : "border-[#d8c28a]/70"
-              }`}
-              aria-label={item.label}
-            />
-          ))}
         </div>
+      </div>
 
-        <p className="absolute bottom-14 text-xl md:bottom-20 md:text-2xl max-sm:bottom-12 max-sm:text-lg">{currentIndex}</p>
-      </aside>
-
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={pathname}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 0.35, ease: "easeOut" }}
-          className="pr-16 md:pr-20 max-sm:pr-14"
+      {/* FULLSCREEN OVERLAY */}
+      {menuOpen && (
+        <div
+          style={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            zIndex: 9999,
+            background: "#0a0a0a",
+            display: "flex",
+            flexDirection: "column",
+            pointerEvents: "auto",
+          }}
         >
-          {children}
-        </motion.div>
-      </AnimatePresence>
+          {/* Overlay top bar */}
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "space-between",
+              padding: "20px 24px",
+            }}
+          >
+            <span style={{ fontSize: "1.5rem", fontWeight: 300, letterSpacing: "0.2em", color: "#d8c28a" }}>
+              LS
+            </span>
+
+            {/* CLOSE BUTTON */}
+            <div
+              onTouchEnd={(e) => { e.preventDefault(); closeMenu(); }}
+              onClick={closeMenu}
+              role="button"
+              aria-label="Close menu"
+              style={{
+                cursor: "pointer",
+                padding: "14px 18px",
+                fontSize: "11px",
+                letterSpacing: "0.4em",
+                textTransform: "uppercase",
+                color: "#d8c28a",
+                pointerEvents: "auto",
+                WebkitTapHighlightColor: "transparent",
+                userSelect: "none",
+              }}
+            >
+              Close
+            </div>
+          </div>
+
+          {/* NAV LINKS */}
+          <div
+            style={{
+              flex: 1,
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              padding: "0 32px",
+            }}
+          >
+            {MENU_ITEMS.map((item) => (
+              <div
+                key={item.href}
+                style={{ borderBottom: "1px solid rgba(184,155,94,0.15)" }}
+              >
+                <Link
+                  href={item.href}
+                  onClick={closeMenu}
+                  style={{
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    padding: "22px 0",
+                    textDecoration: "none",
+                    color: pathname === item.href ? "#d8c28a" : "rgba(244,241,235,0.75)",
+                    WebkitTapHighlightColor: "transparent",
+                    pointerEvents: "auto",
+                  }}
+                >
+                  <span
+                    style={{
+                      fontSize: "clamp(2rem, 8vw, 4.5rem)",
+                      fontWeight: 300,
+                      textTransform: "uppercase",
+                      letterSpacing: "0.08em",
+                    }}
+                  >
+                    {item.label}
+                  </span>
+                  <span style={{ fontSize: "11px", letterSpacing: "0.3em", color: "rgba(184,155,94,0.45)" }}>
+                    /{item.index}
+                  </span>
+                </Link>
+              </div>
+            ))}
+          </div>
+
+          <p
+            style={{
+              padding: "24px 32px",
+              fontSize: "10px",
+              textTransform: "uppercase",
+              letterSpacing: "0.4em",
+              color: "rgba(184,155,94,0.35)",
+            }}
+          >
+            Marketing Studio
+          </p>
+        </div>
+      )}
+
+      {/* PAGE CONTENT */}
+      <div key={pathname}>
+        {children}
+      </div>
     </main>
   );
 }
