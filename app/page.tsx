@@ -22,6 +22,10 @@ export default function Home() {
     mouseY.set(e.clientY - rect.top - rect.height / 2);
   }
 
+  function handleScrollClick() {
+    document.getElementById("section-two")?.scrollIntoView({ behavior: "smooth", block: "start" });
+  }
+
   return (
     <CinematicShell>
       <section onMouseMove={handleMouseMove} className="relative min-h-[100svh] w-full overflow-hidden bg-black md:min-h-screen">
@@ -53,10 +57,15 @@ export default function Home() {
           <p className="mt-6 max-w-[18rem] text-[10px] uppercase leading-relaxed tracking-[0.14em] text-[#d8d0c3] sm:mt-8 sm:max-w-xl sm:text-xs sm:leading-loose sm:tracking-[0.18em] md:text-base">Strategy, content, and digital presence for brands that need to be seen.</p>
         </motion.div>
 
-        <a href="#section-two" className="pointer-events-auto absolute bottom-6 left-1/2 z-[160] flex -translate-x-1/2 cursor-pointer flex-col items-center gap-1 text-[9px] uppercase tracking-[0.35em] text-[#d8c28a] transition-opacity hover:opacity-80 sm:bottom-8 sm:text-[10px] sm:tracking-[0.4em]">
+        <button
+          type="button"
+          onClick={handleScrollClick}
+          className="pointer-events-auto absolute bottom-6 left-1/2 z-[160] flex -translate-x-1/2 cursor-pointer touch-manipulation select-none flex-col items-center gap-1 text-[9px] uppercase tracking-[0.35em] text-[#d8c28a] transition-opacity hover:opacity-80 sm:bottom-8 sm:text-[10px] sm:tracking-[0.4em]"
+          style={{ WebkitTapHighlightColor: "transparent", WebkitUserSelect: "none", touchAction: "manipulation", userSelect: "none" }}
+        >
           <span>Scroll</span>
           <span className="text-6xl leading-none">⌄</span>
-        </a>
+        </button>
       </section>
 
       <section id="section-two" className="flex min-h-[100svh] items-center justify-center bg-[#050505] px-5 sm:px-6 md:px-20">

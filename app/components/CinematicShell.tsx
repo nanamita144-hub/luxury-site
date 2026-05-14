@@ -58,8 +58,10 @@ export default function CinematicShell({ children }: { children: React.ReactNode
 
       <aside className="pointer-events-none fixed right-0 top-0 z-[130] flex h-full w-16 flex-col items-center justify-center border-l border-[#b89b5e]/25 bg-black/15 text-[#d8c28a] backdrop-blur-[2px] max-sm:w-14 max-sm:bg-black/30 md:w-20">
         <button
+          type="button"
           onClick={() => setMenuOpen(true)}
-          className="pointer-events-auto absolute top-16 z-[140] rotate-90 touch-manipulation px-2 py-1 text-[10px] uppercase tracking-[0.35em] transition-opacity hover:opacity-70 max-sm:top-14 max-sm:text-[9px] max-sm:tracking-[0.3em] md:top-20 md:text-xs"
+          className="pointer-events-auto fixed right-1 top-16 z-[99999] rotate-90 cursor-pointer touch-manipulation select-none px-2 py-1 text-[10px] uppercase tracking-[0.35em] transition-opacity hover:opacity-70 max-sm:top-14 max-sm:text-[9px] max-sm:tracking-[0.3em] md:right-2 md:top-20 md:text-xs"
+          style={{ WebkitTapHighlightColor: "transparent", WebkitUserSelect: "none", touchAction: "manipulation", userSelect: "none" }}
         >
           Menu
         </button>
