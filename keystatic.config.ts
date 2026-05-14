@@ -1,9 +1,14 @@
 import { config, singleton, collection, fields } from "@keystatic/core";
 
 export default config({
-  storage: {
-    kind: "local",
-  },
+  storage:
+    process.env.NODE_ENV === "production"
+      ? {
+          kind: "github",
+          repo: "nanamita144-hub/luxury-site",
+          branchPrefix: "keystatic/",
+        }
+      : { kind: "local" },
 
   singletons: {
     hero: singleton({
