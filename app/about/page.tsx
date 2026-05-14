@@ -1,14 +1,17 @@
 import Image from "next/image";
 import CinematicShell from "../components/CinematicShell";
 import StagePage from "../components/StagePage";
-import { about } from "@/lib/content";
+import { getAbout } from "@/lib/content";
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const about = await getAbout();
+  if (!about) return null;
+
   return (
     <CinematicShell>
       <StagePage>
         <p className="font-sans text-[11px] uppercase tracking-[0.45em] text-[#c9bda8]">
-          {about.label}
+          Who we are · 02
         </p>
         <h1 className="mt-5 text-5xl font-light uppercase tracking-[0.16em] text-[#d8c28a] sm:text-7xl md:text-8xl">
           {about.heading}
@@ -21,7 +24,7 @@ export default function AboutPage() {
           <div className="mt-12 w-full max-w-2xl overflow-hidden border border-[#b89b5e]/20">
             <Image
               src={about.image}
-              alt={about.imageAlt}
+              alt="Studio"
               width={900}
               height={600}
               className="w-full object-cover brightness-75"

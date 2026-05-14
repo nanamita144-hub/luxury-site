@@ -1,0 +1,18 @@
+heading: Services
+intro: Five disciplines. One studio. We engage end-to-end or for a single deliverable — never half-measure.
+list:
+  - num: '01'
+    name: Strategy
+    blurb: Positioning, narrative architecture, audience definition. The bones.
+  - num: '02'
+    name: Brand
+    blurb: Identity systems — wordmark, color, type, voice. Built to last a decade.
+  - num: '03'
+    name: Content
+    blurb: Editorial, film, photography, social. Made in-house, made on schedule.
+  - num: '04'
+    name: Digital
+    blurb: Sites, campaigns, launches. Performant, beautiful, owned.
+  - num: '05'
+    name: Advisory
+    blurb: Quarterly retainer for founders and CMOs. Quiet counsel, sharp work.

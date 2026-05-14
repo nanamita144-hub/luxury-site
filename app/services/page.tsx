@@ -1,13 +1,16 @@
 import CinematicShell from "../components/CinematicShell";
 import StagePage from "../components/StagePage";
-import { services } from "@/lib/content";
+import { getServices } from "@/lib/content";
 
-export default function ServicesPage() {
+export default async function ServicesPage() {
+  const services = await getServices();
+  if (!services) return null;
+
   return (
     <CinematicShell>
       <StagePage>
         <p className="font-sans text-[11px] uppercase tracking-[0.45em] text-[#c9bda8]">
-          {services.label}
+          What we do · 03
         </p>
         <h1 className="mt-5 text-5xl font-light uppercase tracking-[0.16em] text-[#d8c28a] sm:text-7xl md:text-8xl">
           {services.heading}
@@ -27,9 +30,7 @@ export default function ServicesPage() {
               key={s.num}
               className="group grid grid-cols-[60px_1fr] items-baseline gap-7 border-b border-[#b89b5e]/25 py-8 transition-colors hover:bg-gradient-to-r hover:from-[#b89b5e]/8 hover:to-transparent sm:grid-cols-[80px_1fr_1fr]"
             >
-              <span className="font-serif text-2xl font-light text-[#d8c28a] sm:text-3xl">
-                {s.num}
-              </span>
+              <span className="font-serif text-2xl font-light text-[#d8c28a] sm:text-3xl">{s.num}</span>
               <h3 className="font-serif text-3xl font-light uppercase tracking-[0.08em] text-[#d8c28a] sm:text-4xl md:text-5xl">
                 {s.name}
               </h3>

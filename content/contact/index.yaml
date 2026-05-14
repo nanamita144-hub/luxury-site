@@ -1,0 +1,11 @@
+heading: Contact
+intro: Tell us about your brand. We respond to every note within two working days.
+details:
+  - k: Email
+    v: studio@lov.studio
+  - k: Press
+    v: press@lov.studio
+  - k: Address
+    v: "12 Rue de la Paix\n75002 Paris, France"
+  - k: Hours
+    v: Mon — Fri · 10:00 — 18:00 CET
