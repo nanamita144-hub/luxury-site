@@ -1,15 +1,14 @@
 import { getDesign } from "@/lib/content";
 
 const SERIF_MAP: Record<string, string> = {
-  cormorant: "var(--font-cormorant)",
+  cormorant: "var(--font-serif)",
   playfair: "var(--font-playfair)",
-  "dm-serif": "var(--font-cormorant)",
   baskerville: "var(--font-baskerville)",
   lora: "var(--font-lora)",
 };
 
 const SANS_MAP: Record<string, string> = {
-  raleway: "var(--font-raleway)",
+  raleway: "var(--font-sans)",
   montserrat: "var(--font-montserrat)",
   inter: "var(--font-inter)",
   jost: "var(--font-jost)",
@@ -21,24 +20,28 @@ export async function ThemeVars() {
     const design = await getDesign();
     if (!design) return null;
 
-    const serif = SERIF_MAP[design.serifFont] ?? "var(--font-cormorant)";
-    const sans = SANS_MAP[design.sansFont] ?? "var(--font-raleway)";
+    const serifOverride = SERIF_MAP[design.serifFont];
+    const sansOverride = SANS_MAP[design.sansFont];
 
-    const css = `
-:root {
-  --background: ${design.colorBackground};
-  --foreground: ${design.colorLinen};
-  --gold: ${design.colorGold};
-  --gold-deep: color-mix(in srgb, ${design.colorGold} 70%, black);
-  --gold-light: ${design.colorGoldLight};
-  --gold-soft: ${design.colorGoldSoft};
-  --gold-mist: ${design.colorGoldMist};
-  --linen: ${design.colorLinen};
-  --font-serif: ${serif}, Georgia, serif;
-  --font-sans: ${sans}, sans-serif;
-}
-`.trim();
+    const lines: string[] = [
+      `--background: ${design.colorBackground};`,
+      `--foreground: ${design.colorLinen};`,
+      `--gold: ${design.colorGold};`,
+      `--gold-light: ${design.colorGoldLight};`,
+      `--gold-soft: ${design.colorGoldSoft};`,
+      `--gold-mist: ${design.colorGoldMist};`,
+      `--linen: ${design.colorLinen};`,
+    ];
 
+    // Only override fonts if the user picked something other than the default
+    if (serifOverride && design.serifFont !== "cormorant") {
+      lines.push(`--font-serif: ${serifOverride}, Georgia, serif;`);
+    }
+    if (sansOverride && design.sansFont !== "raleway") {
+      lines.push(`--font-sans: ${sansOverride}, sans-serif;`);
+    }
+
+    const css = `:root { ${lines.join(" ")} }`;
     return <style dangerouslySetInnerHTML={{ __html: css }} />;
   } catch {
     return null;

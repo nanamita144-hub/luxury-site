@@ -14,12 +14,24 @@ import {
 import "./globals.css";
 import { ThemeVars } from "./components/ThemeVars";
 
+// Primary fonts — same variable names as original so all existing CSS still works
 const cormorant = Cormorant_Garamond({
-  variable: "--font-cormorant",
+  variable: "--font-serif",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600"],
   style: ["normal", "italic"],
 });
+const raleway = Raleway({
+  variable: "--font-sans",
+  subsets: ["latin"],
+  weight: ["300", "400", "500", "600"],
+});
+const geistMono = Geist_Mono({
+  variable: "--font-mono",
+  subsets: ["latin"],
+});
+
+// Extra fonts loaded for the Design & Branding switcher in /keystatic
 const playfair = Playfair_Display({
   variable: "--font-playfair",
   subsets: ["latin"],
@@ -34,11 +46,6 @@ const lora = Lora({
   variable: "--font-lora",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
-});
-const raleway = Raleway({
-  variable: "--font-raleway",
-  subsets: ["latin"],
-  weight: ["300", "400", "500", "600"],
 });
 const montserrat = Montserrat({
   variable: "--font-montserrat",
@@ -60,10 +67,6 @@ const dmSans = DM_Sans({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600"],
 });
-const geistMono = Geist_Mono({
-  variable: "--font-mono",
-  subsets: ["latin"],
-});
 
 export const metadata: Metadata = {
   title: "Lov Studio — Marketing Studio",
@@ -84,15 +87,15 @@ export default function RootLayout({
 }>) {
   const fontVars = [
     cormorant.variable,
+    raleway.variable,
+    geistMono.variable,
     playfair.variable,
     baskerville.variable,
     lora.variable,
-    raleway.variable,
     montserrat.variable,
     inter.variable,
     jost.variable,
     dmSans.variable,
-    geistMono.variable,
   ].join(" ");
 
   return (
