@@ -3,6 +3,7 @@
 import { useState } from "react";
 import CinematicShell from "../components/CinematicShell";
 import StagePage from "../components/StagePage";
+import { contact } from "@/lib/content";
 
 export default function ContactPage() {
   const [sent, setSent] = useState(false);
@@ -16,13 +17,13 @@ export default function ContactPage() {
     <CinematicShell>
       <StagePage>
         <p className="font-sans text-[11px] uppercase tracking-[0.45em] text-[#c9bda8]">
-          Speak with us · 05
+          {contact.label}
         </p>
         <h1 className="mt-5 text-5xl font-light uppercase tracking-[0.16em] text-[#d8c28a] sm:text-7xl md:text-8xl">
-          Contact
+          {contact.heading}
         </h1>
         <p className="mt-9 max-w-[38rem] font-serif text-lg font-light leading-snug text-[#f4f1eb] sm:text-xl md:text-2xl">
-          Tell us about your brand. We respond to every note within two working days.
+          {contact.intro}
         </p>
 
         <div className="mt-14 grid grid-cols-1 gap-12 sm:grid-cols-2 sm:gap-16">
@@ -33,12 +34,7 @@ export default function ContactPage() {
               <span className="h-px flex-1 bg-[#b89b5e]/40" />
             </div>
             <div className="border-t border-[#b89b5e]/25">
-              {[
-                { k: "Email",   v: "studio@lov.studio" },
-                { k: "Press",   v: "press@lov.studio" },
-                { k: "Address", v: "12 Rue de la Paix\n75002 Paris, France" },
-                { k: "Hours",   v: "Mon — Fri · 10:00 — 18:00 CET" },
-              ].map((r) => (
+              {contact.details.map((r) => (
                 <div key={r.k} className="border-b border-[#b89b5e]/25 py-5">
                   <p className="font-sans text-[10px] uppercase tracking-[0.45em] text-[#a89678]">
                     {r.k}
