@@ -3,7 +3,7 @@ import { getDesign } from "@/lib/content";
 const SERIF_MAP: Record<string, string> = {
   cormorant: "var(--font-cormorant)",
   playfair: "var(--font-playfair)",
-  "dm-serif": "var(--font-dm-serif)",
+  "dm-serif": "var(--font-cormorant)",
   baskerville: "var(--font-baskerville)",
   lora: "var(--font-lora)",
 };
@@ -17,17 +17,19 @@ const SANS_MAP: Record<string, string> = {
 };
 
 export async function ThemeVars() {
-  const design = await getDesign();
-  if (!design) return null;
+  try {
+    const design = await getDesign();
+    if (!design) return null;
 
-  const serif = SERIF_MAP[design.serifFont] ?? "var(--font-cormorant)";
-  const sans = SANS_MAP[design.sansFont] ?? "var(--font-raleway)";
+    const serif = SERIF_MAP[design.serifFont] ?? "var(--font-cormorant)";
+    const sans = SANS_MAP[design.sansFont] ?? "var(--font-raleway)";
 
-  const css = `
+    const css = `
 :root {
   --background: ${design.colorBackground};
   --foreground: ${design.colorLinen};
   --gold: ${design.colorGold};
+  --gold-deep: color-mix(in srgb, ${design.colorGold} 70%, black);
   --gold-light: ${design.colorGoldLight};
   --gold-soft: ${design.colorGoldSoft};
   --gold-mist: ${design.colorGoldMist};
@@ -37,5 +39,8 @@ export async function ThemeVars() {
 }
 `.trim();
 
-  return <style dangerouslySetInnerHTML={{ __html: css }} />;
+    return <style dangerouslySetInnerHTML={{ __html: css }} />;
+  } catch {
+    return null;
+  }
 }

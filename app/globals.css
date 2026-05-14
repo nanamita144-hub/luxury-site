@@ -16,6 +16,10 @@
   --linen: #f4f1eb;
   --linen-dim: #d8d0c3;
   --linen-mute: #8a8378;
+
+  /* Font defaults — overridden by ThemeVars when design tokens are saved */
+  --font-serif: var(--font-cormorant), Georgia, serif;
+  --font-sans: var(--font-raleway), sans-serif;
 }
 
 @theme inline {

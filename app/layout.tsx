@@ -4,7 +4,6 @@ import {
   Cormorant_Garamond,
   Raleway,
   Playfair_Display,
-  DM_Serif_Display,
   Libre_Baskerville,
   Lora,
   Montserrat,
@@ -15,7 +14,6 @@ import {
 import "./globals.css";
 import { ThemeVars } from "./components/ThemeVars";
 
-// ── Serif / heading fonts ────────────────────────────────────────────────────
 const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
   subsets: ["latin"],
@@ -27,11 +25,6 @@ const playfair = Playfair_Display({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
 });
-const dmSerif = DM_Serif_Display({
-  variable: "--font-dm-serif",
-  subsets: ["latin"],
-  weight: ["400"],
-});
 const baskerville = Libre_Baskerville({
   variable: "--font-baskerville",
   subsets: ["latin"],
@@ -42,8 +35,6 @@ const lora = Lora({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
 });
-
-// ── Sans / UI fonts ──────────────────────────────────────────────────────────
 const raleway = Raleway({
   variable: "--font-raleway",
   subsets: ["latin"],
@@ -69,7 +60,6 @@ const dmSans = DM_Sans({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600"],
 });
-
 const geistMono = Geist_Mono({
   variable: "--font-mono",
   subsets: ["latin"],
@@ -93,10 +83,15 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   const fontVars = [
-    cormorant.variable, playfair.variable, dmSerif.variable,
-    baskerville.variable, lora.variable,
-    raleway.variable, montserrat.variable, inter.variable,
-    jost.variable, dmSans.variable,
+    cormorant.variable,
+    playfair.variable,
+    baskerville.variable,
+    lora.variable,
+    raleway.variable,
+    montserrat.variable,
+    inter.variable,
+    jost.variable,
+    dmSans.variable,
     geistMono.variable,
   ].join(" ");
 
