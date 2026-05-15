@@ -1,7 +1,8 @@
 import { Resend } from "resend";
 import { NextRequest, NextResponse } from "next/server";
 
-const resend = new Resend(process.env.RESEND_API_KEY);
+// NOTE: instantiated inside the handler so it only runs at request time,
+// not at build time (avoids "Missing API key" build error).
 
 export async function POST(req: NextRequest) {
   const { name, email, message } = await req.json() as {
@@ -17,6 +18,8 @@ export async function POST(req: NextRequest) {
   if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
     return NextResponse.json({ error: "Invalid email address." }, { status: 400 });
   }
+
+  const resend = new Resend(process.env.RESEND_API_KEY);
 
   try {
     await resend.emails.send({
