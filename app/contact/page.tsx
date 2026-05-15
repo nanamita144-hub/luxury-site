@@ -4,13 +4,33 @@ import { useState } from "react";
 import CinematicShell from "../components/CinematicShell";
 import StagePage from "../components/StagePage";
 
+type FormStatus = "idle" | "sending" | "sent" | "error";
+
 export default function ContactPage() {
-  const [sent, setSent] = useState(false);
-  function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+  const [formStatus, setFormStatus] = useState<FormStatus>("idle");
+
+  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
-    setSent(true);
-    // Hook to your form provider here (Formspree, Resend, Route Handler...).
+    setFormStatus("sending");
+    const form = e.currentTarget;
+    const data = {
+      name:    (form.elements.namedItem("c-name")  as HTMLInputElement).value,
+      email:   (form.elements.namedItem("c-email") as HTMLInputElement).value,
+      message: (form.elements.namedItem("c-msg")   as HTMLTextAreaElement).value,
+    };
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      });
+      setFormStatus(res.ok ? "sent" : "error");
+    } catch {
+      setFormStatus("error");
+    }
   }
+
+  const sent = formStatus === "sent";
 
   return (
     <CinematicShell>
@@ -34,10 +54,8 @@ export default function ContactPage() {
             </div>
             <div className="border-t border-[#b89b5e]/25">
               {[
-                { k: "Email",   v: "studio@lov.studio" },
-                { k: "Press",   v: "press@lov.studio" },
-                { k: "Address", v: "12 Rue de la Paix\n75002 Paris, France" },
-                { k: "Hours",   v: "Mon — Fri · 10:00 — 18:00 CET" },
+                { k: "Email",   v: "marketing@lovstudio.ca" },
+                { k: "Hours",   v: "Mon — Fri · 9:00 — 18:00" },
               ].map((r) => (
                 <div key={r.k} className="border-b border-[#b89b5e]/25 py-5">
                   <p className="font-sans text-[10px] uppercase tracking-[0.45em] text-[#a89678]">
@@ -67,12 +85,20 @@ export default function ContactPage() {
                   Sent · We&rsquo;ll reply within two working days.
                 </p>
               ) : (
-                <button
-                  type="submit"
-                  className="mt-2 self-start border border-[#b89b5e] bg-transparent px-8 py-4 font-sans text-[11px] uppercase tracking-[0.45em] text-[#d8c28a] transition-colors hover:bg-[#b89b5e] hover:text-black active:opacity-70"
-                >
-                  Send
-                </button>
+                <>
+                  <button
+                    type="submit"
+                    disabled={formStatus === "sending"}
+                    className="mt-2 self-start border border-[#b89b5e] bg-transparent px-8 py-4 font-sans text-[11px] uppercase tracking-[0.45em] text-[#d8c28a] transition-colors hover:bg-[#b89b5e] hover:text-black active:opacity-70 disabled:opacity-40 disabled:cursor-not-allowed"
+                  >
+                    {formStatus === "sending" ? "Sending..." : "Send"}
+                  </button>
+                  {formStatus === "error" && (
+                    <p className="font-sans text-[10px] uppercase tracking-[0.35em] text-red-400/70">
+                      Something went wrong · Try emailing marketing@lovstudio.ca directly.
+                    </p>
+                  )}
+                </>
               )}
             </form>
           </div>

@@ -1,7 +1,7 @@
 /* ═══════════════════════════════════════
    HERO PAGE — standalone styles
    Fonts use CSS vars from layout.tsx:
-     --font-display   = Bebas Neue
+     --font-display    = Bebas Neue
      --font-montserrat = Montserrat
 ═══════════════════════════════════════ */
 
@@ -135,7 +135,7 @@ nav.hero-nav {
   font-size: 15px;
   font-weight: 300;
   letter-spacing: 0.01em;
-  color: rgba(222, 205, 175, 0.90);
+  color: rgba(222, 205, 175, 0.95);
   text-decoration: none;
   opacity: 0;
   animation: aFadeDown 1s ease 0.2s forwards;
@@ -149,17 +149,18 @@ nav.hero-nav {
   animation: aFadeDown 1s ease 0.4s forwards;
 }
 
+/* ── FIX: nav links were too dim (0.52 → 0.85) ── */
 .nav-link {
   font-family: var(--font-montserrat), sans-serif;
   font-size: 13px;
   font-weight: 300;
   letter-spacing: 0.02em;
-  color: rgba(222, 205, 175, 0.52);
+  color: rgba(222, 205, 175, 0.85);
   text-decoration: none;
   transition: color 0.3s ease;
   white-space: nowrap;
 }
-.nav-link:hover { color: #DECDAF; }
+.nav-link:hover { color: #EDE0C4; }
 
 /* Hamburger — hidden on desktop */
 .hamburger {
@@ -177,7 +178,7 @@ nav.hero-nav {
   display: block;
   width: 24px;
   height: 0.5px;
-  background: rgba(222, 205, 175, 0.70);
+  background: rgba(222, 205, 175, 0.85);
   transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
@@ -200,7 +201,7 @@ nav.hero-nav {
   font-size: 48px;
   font-weight: 400;
   letter-spacing: 0.06em;
-  color: rgba(222, 205, 175, 0.80);
+  color: rgba(222, 205, 175, 0.85);
   text-decoration: none;
   text-transform: uppercase;
   transition: color 0.3s ease;
@@ -215,7 +216,7 @@ nav.hero-nav {
   font-size: 11px;
   font-weight: 300;
   letter-spacing: 0.28em;
-  color: rgba(222, 205, 175, 0.28);
+  color: rgba(222, 205, 175, 0.55);
   text-transform: uppercase;
   cursor: pointer;
   background: none;
@@ -242,7 +243,7 @@ nav.hero-nav {
   font-size: 9px;
   font-weight: 300;
   letter-spacing: 0.46em;
-  color: rgba(222, 205, 175, 0.28);
+  color: rgba(222, 205, 175, 0.65);
   text-transform: uppercase;
   margin-bottom: 22px;
   opacity: 0;
@@ -285,16 +286,16 @@ nav.hero-nav {
 }
 
 /* Desktop sizes */
-.row-1 .tl-word { font-size: clamp(44px, 6.5vw, 82px);  color: rgba(237, 224, 196, 0.38); line-height: 1.06; }
-.row-2 .tl-word { font-size: clamp(56px, 8.5vw, 102px); color: rgba(237, 224, 196, 0.65); line-height: 1.03; }
-.row-3 .tl-word { font-size: clamp(68px, 10.5vw, 122px);color: #EDE0C4;                   line-height: 1.00; }
+.row-1 .tl-word { font-size: clamp(44px, 6.5vw, 82px);   color: rgba(237, 224, 196, 0.38); line-height: 1.06; }
+.row-2 .tl-word { font-size: clamp(56px, 8.5vw, 102px);  color: rgba(237, 224, 196, 0.65); line-height: 1.03; }
+.row-3 .tl-word { font-size: clamp(68px, 10.5vw, 122px); color: #EDE0C4;                   line-height: 1.00; }
 
 .sub-label {
   font-family: var(--font-montserrat), sans-serif;
   font-size: 9px;
   font-weight: 300;
   letter-spacing: 0.28em;
-  color: rgba(222, 205, 175, 0.28);
+  color: rgba(222, 205, 175, 0.60);
   text-transform: uppercase;
   max-width: 380px;
   line-height: 2.5;
@@ -319,27 +320,27 @@ nav.hero-nav {
   font-size: 8px;
   font-weight: 300;
   letter-spacing: 0.22em;
-  color: rgba(222, 205, 175, 0.28);
+  color: rgba(222, 205, 175, 0.55);
   text-transform: uppercase;
   padding: 7px 16px;
-  border: 0.5px solid rgba(222, 205, 175, 0.28);
+  border: 0.5px solid rgba(222, 205, 175, 0.35);
   border-radius: 40px;
   transition: color 1s ease, border-color 1s ease, box-shadow 1s ease, background 1s ease;
   white-space: nowrap;
 }
 .pill.glow {
   color: #EDE0C4;
-  border-color: rgba(222, 205, 175, 0.52);
-  background: rgba(222, 205, 175, 0.055);
+  border-color: rgba(222, 205, 175, 0.65);
+  background: rgba(222, 205, 175, 0.07);
   box-shadow:
-    0 0  9px rgba(222, 205, 175, 0.20),
-    0 0 24px rgba(222, 205, 175, 0.11),
+    0 0  9px rgba(222, 205, 175, 0.22),
+    0 0 24px rgba(222, 205, 175, 0.12),
     0 0 50px rgba(222, 205, 175, 0.05),
     inset 0 0 14px rgba(222, 205, 175, 0.04);
 }
 
 /* ═══════════════════════════════════════
-   SCROLL INDICATOR
+   SCROLL INDICATOR — FIX: was too dark + unclickable
 ═══════════════════════════════════════ */
 .scroll-btn {
   position: absolute;
@@ -353,21 +354,28 @@ nav.hero-nav {
   gap: 10px;
   opacity: 0;
   animation: aFadeUp 1s ease 2.6s forwards;
-  pointer-events: none;
+  /* FIX: was pointer-events: none — scroll button was unclickable */
+  pointer-events: auto;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 8px 16px;
 }
 .scroll-label {
   font-family: var(--font-montserrat), sans-serif;
   font-size: 7.5px;
   font-weight: 300;
   letter-spacing: 0.50em;
-  color: rgba(222, 205, 175, 0.28);
+  /* FIX: was rgba(..., 0.28) — too dark */
+  color: rgba(222, 205, 175, 0.72);
   text-transform: uppercase;
 }
 .scroll-chevron {
   width: 10px;
   height: 10px;
-  border-right: 0.5px solid rgba(222, 205, 175, 0.28);
-  border-bottom: 0.5px solid rgba(222, 205, 175, 0.28);
+  /* FIX: was rgba(..., 0.28) — too dark */
+  border-right: 0.5px solid rgba(222, 205, 175, 0.72);
+  border-bottom: 0.5px solid rgba(222, 205, 175, 0.72);
   transform: rotate(45deg);
   animation: aChev 2.6s ease-in-out infinite;
 }
@@ -383,12 +391,12 @@ nav.hero-nav {
   font-family: var(--font-montserrat), sans-serif;
   font-size: 11px;
   font-weight: 300;
-  color: rgba(222, 205, 175, 0.28);
+  color: rgba(222, 205, 175, 0.55);
   letter-spacing: 0.14em;
   opacity: 0;
   animation: aFadeIn 1s ease 2.4s forwards;
 }
-.counter-faint { color: rgba(222, 205, 175, 0.16); }
+.counter-faint { color: rgba(222, 205, 175, 0.28); }
 
 .cat-label {
   position: absolute;
@@ -403,7 +411,7 @@ nav.hero-nav {
   font-family: var(--font-montserrat), sans-serif;
   font-size: 7px;
   letter-spacing: 0.34em;
-  color: rgba(222, 205, 175, 0.16);
+  color: rgba(222, 205, 175, 0.35);
   text-transform: uppercase;
   display: block;
   margin-bottom: 4px;
@@ -411,8 +419,196 @@ nav.hero-nav {
 .cat-label-big {
   font-family: var(--font-display), sans-serif;
   font-size: 20px;
-  color: rgba(222, 205, 175, 0.28);
+  color: rgba(222, 205, 175, 0.55);
   letter-spacing: 0.10em;
+  text-transform: uppercase;
+}
+
+/* ═══════════════════════════════════════
+   BRAND STATEMENT SECTION
+═══════════════════════════════════════ */
+.brand-section {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: #050503;
+  padding: 80px 32px;
+  text-align: center;
+}
+
+.brand-eyebrow {
+  font-family: var(--font-montserrat), sans-serif;
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 0.50em;
+  color: rgba(184, 155, 94, 0.65);
+  text-transform: uppercase;
+  margin-bottom: 40px;
+}
+
+.brand-statement {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: clamp(1.6rem, 4vw, 3.2rem);
+  font-weight: 300;
+  line-height: 1.35;
+  color: rgba(244, 241, 235, 0.88);
+  max-width: 780px;
+  letter-spacing: 0.02em;
+}
+
+.brand-divider {
+  width: 40px;
+  height: 0.5px;
+  background: rgba(184, 155, 94, 0.45);
+  margin: 48px auto 0;
+}
+
+/* ═══════════════════════════════════════
+   CONTACT SECTION
+═══════════════════════════════════════ */
+.contact-section {
+  background: #040402;
+  padding: 100px 32px 80px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.contact-eyebrow {
+  font-family: var(--font-montserrat), sans-serif;
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 0.50em;
+  color: rgba(184, 155, 94, 0.55);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.contact-heading {
+  font-family: var(--font-display), sans-serif;
+  font-size: clamp(2.8rem, 6vw, 5rem);
+  font-weight: 400;
+  letter-spacing: 0.06em;
+  color: rgba(222, 205, 175, 0.90);
+  text-transform: uppercase;
+  text-align: center;
+  margin-bottom: 60px;
+}
+
+.contact-form {
+  width: 100%;
+  max-width: 580px;
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.contact-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.contact-label {
+  font-family: var(--font-montserrat), sans-serif;
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 0.40em;
+  color: rgba(184, 155, 94, 0.65);
+  text-transform: uppercase;
+}
+
+.contact-input,
+.contact-textarea {
+  font-family: var(--font-serif), Georgia, serif;
+  font-size: 1rem;
+  font-weight: 300;
+  color: rgba(244, 241, 235, 0.90);
+  background: transparent;
+  border: none;
+  border-bottom: 0.5px solid rgba(184, 155, 94, 0.30);
+  padding: 10px 0;
+  outline: none;
+  transition: border-color 0.3s ease;
+  width: 100%;
+  letter-spacing: 0.04em;
+}
+.contact-input::placeholder,
+.contact-textarea::placeholder {
+  color: rgba(244, 241, 235, 0.22);
+}
+.contact-input:focus,
+.contact-textarea:focus {
+  border-bottom-color: rgba(222, 205, 175, 0.65);
+}
+
+.contact-textarea {
+  resize: none;
+  min-height: 90px;
+}
+
+.contact-btn {
+  align-self: flex-start;
+  margin-top: 8px;
+  font-family: var(--font-montserrat), sans-serif;
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.40em;
+  text-transform: uppercase;
+  color: rgba(222, 205, 175, 0.85);
+  background: transparent;
+  border: 0.5px solid rgba(184, 155, 94, 0.45);
+  padding: 14px 32px;
+  cursor: pointer;
+  transition: background 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+}
+.contact-btn:hover {
+  background: rgba(184, 155, 94, 0.12);
+  border-color: rgba(222, 205, 175, 0.70);
+  color: #EDE0C4;
+}
+.contact-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.contact-status {
+  font-family: var(--font-montserrat), sans-serif;
+  font-size: 9px;
+  font-weight: 300;
+  letter-spacing: 0.40em;
+  text-transform: uppercase;
+  padding-top: 4px;
+}
+.contact-status.success { color: rgba(184, 155, 94, 0.80); }
+.contact-status.error   { color: rgba(200, 100, 90, 0.80); }
+
+.contact-footer {
+  margin-top: 64px;
+  text-align: center;
+}
+.contact-footer-email {
+  font-family: var(--font-montserrat), sans-serif;
+  font-size: 10px;
+  font-weight: 300;
+  letter-spacing: 0.30em;
+  color: rgba(184, 155, 94, 0.45);
+  text-transform: uppercase;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+.contact-footer-email:hover { color: rgba(222, 205, 175, 0.75); }
+
+.contact-copyright {
+  margin-top: 16px;
+  font-family: var(--font-montserrat), sans-serif;
+  font-size: 8px;
+  font-weight: 300;
+  letter-spacing: 0.25em;
+  color: rgba(184, 155, 94, 0.25);
   text-transform: uppercase;
 }
 
@@ -440,6 +636,10 @@ nav.hero-nav {
 
   .counter, .cat-label { display: none; }
   .scroll-btn { bottom: 22px; }
+
+  .brand-section  { padding: 64px 24px; }
+  .contact-section { padding: 72px 24px 60px; }
+  .contact-heading { margin-bottom: 40px; }
 }
 
 @media (max-width: 420px) {
