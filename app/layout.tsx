@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist_Mono, Cormorant_Garamond, Raleway } from "next/font/google";
+import { Geist_Mono, Cormorant_Garamond, Raleway, Bebas_Neue, Montserrat } from "next/font/google";
 import "./globals.css";
 
 const cormorant = Cormorant_Garamond({
@@ -18,6 +18,18 @@ const raleway = Raleway({
 const geistMono = Geist_Mono({
   variable: "--font-mono",
   subsets: ["latin"],
+});
+
+const bebasNeue = Bebas_Neue({
+  variable: "--font-display",
+  weight: "400",
+  subsets: ["latin"],
+});
+
+const montserrat = Montserrat({
+  variable: "--font-montserrat",
+  subsets: ["latin"],
+  weight: ["300", "400"],
 });
 
 export const metadata: Metadata = {
@@ -40,7 +52,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${cormorant.variable} ${raleway.variable} ${geistMono.variable} h-full antialiased`}
+      className={`${cormorant.variable} ${raleway.variable} ${geistMono.variable} ${bebasNeue.variable} ${montserrat.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col">{children}</body>
     </html>

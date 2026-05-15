@@ -1,139 +1,219 @@
 "use client";
 
-import { motion, useMotionValue, useTransform } from "framer-motion";
-import CinematicShell from "./components/CinematicShell";
+import "./hero.css";
+import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 
+// ── Slide data ──────────────────────────────────────────────────────────────
+const slides = [
+  { w1: "Every",   w2: "frame",   w3: "tells a story.",  cat: "Construction", pill: 3 },
+  { w1: "Real",    w2: "spaces.", w3: "Real moments.",   cat: "Real estate",  pill: 1 },
+  { w1: "We make", w2: "people",  w3: "stop scrolling.", cat: "Events",       pill: 0 },
+  { w1: "Every",   w2: "product", w3: "needs a voice.",  cat: "Products",     pill: 2 },
+] as const;
+
+const PILL_LABELS = ["Events", "Real estate", "Products", "Construction"];
+
+// ── Component ───────────────────────────────────────────────────────────────
 export default function Home() {
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
+  const [videoReady, setVideoReady] = useState(false);
+  const [menuOpen, setMenuOpen]     = useState(false);
+  const [activePill, setActivePill] = useState(3); // Construction = slide 0
+  const [catName, setCatName]       = useState("Construction");
+  const [catOpacity, setCatOpacity] = useState(1);
+  const [cNum, setCNum]             = useState("01");
+  const [litCells, setLitCells]     = useState<number[]>([]);
 
-  const bgX = useTransform(mouseX, [-700, 700], [-35, 35]);
-  const bgY = useTransform(mouseY, [-700, 700], [-20, 20]);
-  const textX = useTransform(mouseX, [-700, 700], [12, -12]);
-  const textY = useTransform(mouseY, [-700, 700], [8, -8]);
-  const fogX = useTransform(mouseX, [-700, 700], [-120, 120]);
-  const fogY = useTransform(mouseY, [-700, 700], [-80, 80]);
+  // Direct DOM refs for word animation (avoids React batching on rapid state changes)
+  const w1Ref  = useRef<HTMLSpanElement>(null);
+  const w2Ref  = useRef<HTMLSpanElement>(null);
+  const w3Ref  = useRef<HTMLSpanElement>(null);
+  const curRef = useRef(0);
 
-  const reveal = useTransform(
-    [mouseX, mouseY],
-    ([x, y]) =>
-      `radial-gradient(circle at calc(50% + ${x}px) calc(50% + ${y}px), rgba(255,255,255,0.25) 0px, rgba(255,255,255,0.12) 170px, rgba(0,0,0,0.28) 380px, rgba(0,0,0,0.88) 850px)`
-  );
-
-  function handleMouseMove(e: React.MouseEvent<HTMLElement>) {
-    const rect = e.currentTarget.getBoundingClientRect();
-    mouseX.set(e.clientX - rect.left - rect.width / 2);
-    mouseY.set(e.clientY - rect.top - rect.height / 2);
+  function randomCells(): number[] {
+    return [...Array(6).keys()].sort(() => Math.random() - 0.5).slice(0, 2);
   }
 
+  function animIn(s: (typeof slides)[number], idx: number) {
+    // Reset classes + update text
+    [w1Ref, w2Ref, w3Ref].forEach(r => r.current?.classList.remove("out", "in"));
+    if (w1Ref.current) w1Ref.current.textContent = s.w1;
+    if (w2Ref.current) w2Ref.current.textContent = s.w2;
+    if (w3Ref.current) w3Ref.current.textContent = s.w3;
+
+    // Trigger "in" on next paint so CSS transition fires
+    requestAnimationFrame(() => {
+      w1Ref.current?.classList.add("in");
+      setTimeout(() => w2Ref.current?.classList.add("in"), 115);
+      setTimeout(() => w3Ref.current?.classList.add("in"), 215);
+    });
+
+    setActivePill(s.pill);
+    setCNum(String(idx + 1).padStart(2, "0"));
+    setCatOpacity(0);
+    setTimeout(() => { setCatName(s.cat); setCatOpacity(1); }, 420);
+    setLitCells(randomCells());
+  }
+
+  // Initial animate-in
+  useEffect(() => {
+    const t = setTimeout(() => animIn(slides[0], 0), 1000);
+    return () => clearTimeout(t);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Slide rotation — every 4.2 s
+  useEffect(() => {
+    const interval = setInterval(() => {
+      w1Ref.current?.classList.add("out");
+      setTimeout(() => w2Ref.current?.classList.add("out"), 55);
+      setTimeout(() => w3Ref.current?.classList.add("out"), 110);
+
+      setTimeout(() => {
+        const next = (curRef.current + 1) % slides.length;
+        curRef.current = next;
+        animIn(slides[next], next);
+      }, 500);
+    }, 4200);
+    return () => clearInterval(interval);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Lock scroll while hero is mounted
+  useEffect(() => {
+    document.documentElement.style.overflow = "hidden";
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.documentElement.style.overflow = "";
+      document.body.style.overflow = "";
+    };
+  }, []);
+
   return (
-    <CinematicShell>
-      <section
-        onMouseMove={handleMouseMove}
-        style={{ position: "relative", minHeight: "100svh", width: "100%", overflow: "hidden", background: "#000" }}
-      >
-        {/* VIDEO */}
-        <motion.video
-          style={{ x: bgX, y: bgY, scale: 1.12, position: "absolute", inset: 0, width: "100%", height: "100%", objectFit: "cover", zIndex: 0 }}
-          autoPlay
-          muted
-          loop
-          playsInline
-          preload="auto"
-          poster="/window.svg"
-        >
-          <source src="/Instalation.mp4" type="video/mp4" />
-          <source src="/Instalation.mov" type="video/quicktime" />
-        </motion.video>
+    <section className="hero">
 
-        {/* Dark overlay */}
-        <div style={{ position: "absolute", inset: 0, zIndex: 1, background: "rgba(0,0,0,0.55)", pointerEvents: "none" }} />
+      {/* ── VIDEO — replace /your-video.mp4 with your actual file ─────────── */}
+      <video
+        className={`hero-video${videoReady ? " ready" : ""}`}
+        src="/your-video.mp4"
+        autoPlay
+        muted
+        loop
+        playsInline
+        preload="auto"
+        onCanPlay={() => setVideoReady(true)}
+      />
 
-        {/* Reveal gradient */}
-        <motion.div
-          style={{ background: reveal, position: "absolute", inset: 0, zIndex: 2, mixBlendMode: "screen", pointerEvents: "none" }}
-        />
+      <div className="hero-fallback" />
 
-        {/* Fog blobs */}
-        <motion.div
-          style={{ x: fogX, y: fogY, pointerEvents: "none", position: "absolute", left: -320, top: -320, zIndex: 3, height: 700, width: 700, borderRadius: "50%", background: "rgba(255,255,255,0.20)", filter: "blur(150px)" }}
-          animate={{ opacity: [0.3, 0.65, 0.3], scale: [1, 1.18, 1] }}
-          transition={{ duration: 9, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div
-          style={{ pointerEvents: "none", position: "absolute", right: -288, top: -208, zIndex: 3, height: 620, width: 620, borderRadius: "50%", background: "rgba(255,255,255,0.15)", filter: "blur(130px)" }}
-          animate={{ opacity: [0.25, 0.55, 0.25], scale: [1.1, 0.95, 1.1] }}
-          transition={{ duration: 11, repeat: Infinity, ease: "easeInOut" }}
-        />
-        <motion.div
-          style={{ pointerEvents: "none", position: "absolute", bottom: -288, left: -160, zIndex: 3, height: 680, width: 900, borderRadius: "50%", background: "rgba(184,155,94,0.20)", filter: "blur(150px)" }}
-          animate={{ opacity: [0.2, 0.5, 0.2], scale: [1, 1.15, 1] }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-        />
+      {/* ── Grid overlay ──────────────────────────────────────────────────── */}
+      <div className="grid-overlay">
+        {[0, 1, 2, 3, 4, 5].map((i) => (
+          <div key={i} className={`gc${litCells.includes(i) ? " lit" : ""}`} />
+        ))}
+      </div>
 
-        {/* Gold border frame */}
-        <div style={{ pointerEvents: "none", position: "absolute", inset: 12, zIndex: 4, border: "1px solid rgba(184,155,94,0.40)" }} />
+      <div className="overlay" />
+      <div className="vignette" />
+      <div className="grain" />
+      <div className="frame-l" />
+      <div className="frame-r" />
 
-        {/* Hero text — pointer-events none so it never blocks clicks */}
-        <motion.div
-          style={{ x: textX, y: textY, pointerEvents: "none" }}
-          className="absolute inset-0 z-[5] flex flex-col items-center justify-center px-5 text-center pt-24"
-        >
-          <p className="mb-5 text-[10px] uppercase tracking-[0.35em] text-[#c9bda8] sm:mb-6 sm:text-xs sm:tracking-[0.45em]">
-            Marketing Studio
-          </p>
-          <h1 className="text-[2.2rem] font-light uppercase tracking-[0.12em] text-[#d8c28a] sm:text-5xl sm:tracking-[0.16em] md:text-8xl lg:text-9xl">
-            Lov Studio
-          </h1>
-          <p className="mt-6 max-w-[18rem] text-[10px] uppercase leading-relaxed tracking-[0.14em] text-[#d8d0c3] sm:mt-8 sm:max-w-xl sm:text-xs sm:leading-loose sm:tracking-[0.18em] md:text-base">
-            Strategy, content, and digital presence for brands that need to be seen.
-          </p>
-        </motion.div>
+      {/* ── Navigation ────────────────────────────────────────────────────── */}
+      <nav className="hero-nav">
+        <Link className="nav-logo" href="/">Lov Studio</Link>
 
-        {/* SCROLL BUTTON — highest z, explicit pointer-events */}
-        <div
-          style={{
-            position: "absolute",
-            bottom: 32,
-            left: "50%",
-            transform: "translateX(-50%)",
-            zIndex: 9000,
-            pointerEvents: "auto",
-            cursor: "pointer",
-            WebkitTapHighlightColor: "transparent",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            gap: 4,
-          }}
-          onClick={() => {
-            document.getElementById("section-two")?.scrollIntoView({ behavior: "smooth" });
-          }}
-          onTouchEnd={(e) => {
-            e.preventDefault();
-            document.getElementById("section-two")?.scrollIntoView({ behavior: "smooth" });
-          }}
-        >
-          <span style={{ fontSize: 9, textTransform: "uppercase", letterSpacing: "0.35em", color: "#d8c28a" }}>
-            Scroll
-          </span>
-          <span style={{ fontSize: 40, lineHeight: 1, color: "#d8c28a" }}>⌄</span>
+        {/* Desktop links */}
+        <div className="nav-links">
+          <Link className="nav-link" href="/">Home</Link>
+          <Link className="nav-link" href="/about">About</Link>
+          <Link className="nav-link" href="/services">Services</Link>
+          <Link className="nav-link" href="/selected-works">Selected works</Link>
         </div>
-      </section>
 
-      <section
-        id="section-two"
-        style={{ display: "flex", minHeight: "100svh", alignItems: "center", justifyContent: "center", background: "#050505", padding: "0 20px" }}
-      >
-        <div style={{ maxWidth: 900, textAlign: "center" }}>
-          <p className="mb-8 text-[10px] uppercase tracking-[0.35em] text-[#a89678] sm:mb-10 sm:text-xs sm:tracking-[0.45em]">
-            Built for presence
-          </p>
-          <h2 className="text-2xl font-light leading-tight tracking-wide sm:text-3xl md:text-7xl">
-            We create the kind of marketing that makes a brand impossible to ignore.
-          </h2>
+        {/* Mobile hamburger */}
+        <button
+          className="hamburger"
+          aria-label="Open menu"
+          onClick={() => setMenuOpen(true)}
+        >
+          <span /><span /><span />
+        </button>
+      </nav>
+
+      {/* ── Mobile nav drawer ─────────────────────────────────────────────── */}
+      <div className={`mobile-nav${menuOpen ? " open" : ""}`}>
+        <button className="mobile-close" onClick={() => setMenuOpen(false)}>
+          Close
+        </button>
+        {(
+          [
+            ["Home",           "/"],
+            ["About",          "/about"],
+            ["Services",       "/services"],
+            ["Selected works", "/selected-works"],
+          ] as const
+        ).map(([label, href]) => (
+          <Link
+            key={href}
+            className="mobile-nav-link"
+            href={href}
+            onClick={() => setMenuOpen(false)}
+          >
+            {label}
+          </Link>
+        ))}
+      </div>
+
+      {/* ── Main content ──────────────────────────────────────────────────── */}
+      <div className="content">
+        <p className="sup-label">Marketing Studio</p>
+
+        {/* 3-line rotating tagline */}
+        <div className="tagline-block">
+          <span className="tl-row row-1"><span ref={w1Ref} className="tl-word" /></span>
+          <span className="tl-row row-2"><span ref={w2Ref} className="tl-word" /></span>
+          <span className="tl-row row-3"><span ref={w3Ref} className="tl-word" /></span>
         </div>
-      </section>
-    </CinematicShell>
+
+        <p className="sub-label">
+          Strategy, content &amp; digital presence<br />
+          for brands that need to be seen.
+        </p>
+
+        {/* Category pills */}
+        <div className="pills">
+          {PILL_LABELS.map((label, i) => (
+            <span key={i} className={`pill${activePill === i ? " glow" : ""}`}>
+              {label}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* ── Bottom-left counter ───────────────────────────────────────────── */}
+      <div className="counter">
+        <span>{cNum}</span>
+        <span className="counter-faint"> / 04</span>
+      </div>
+
+      {/* ── Bottom-right category label ───────────────────────────────────── */}
+      <div className="cat-label">
+        <span className="cat-label-small">Currently</span>
+        <span
+          className="cat-label-big"
+          style={{ transition: "opacity 0.5s ease", opacity: catOpacity }}
+        >
+          {catName}
+        </span>
+      </div>
+
+      {/* ── Scroll indicator ──────────────────────────────────────────────── */}
+      <div className="scroll-btn">
+        <span className="scroll-label">Scroll</span>
+        <div className="scroll-chevron" />
+      </div>
+
+    </section>
   );
 }
