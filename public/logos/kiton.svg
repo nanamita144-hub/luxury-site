@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 290 105" role="img" aria-label="Kiton">
+  <title>Kiton</title>
+
+  <!-- Red dot above the i  (Impact font, size 72, centered x=145)
+       K≈46px, then i starts at ~191 from left edge; text left-edge ≈ 145−88=57
+       i-center ≈ 57+46+12 = 115 -->
+  <circle cx="115" cy="14" r="10" fill="#cc2200"/>
+
+  <text x="145" y="88"
+        text-anchor="middle"
+        font-family="Impact, 'Arial Black', 'Arial Narrow', sans-serif"
+        font-size="72"
+        fill="#1a1a1a"
+        letter-spacing="1">Kiton</text>
+</svg>

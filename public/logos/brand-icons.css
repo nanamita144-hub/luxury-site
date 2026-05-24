@@ -1,0 +1,53 @@
+/* ============================================================
+   Luxury Brand Icon Set
+   Usage: <span class="brand-icon brand-icon-chanel brand-icon-md"></span>
+   ============================================================ */
+
+.brand-icon {
+  display: inline-block;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 160px;
+  height: 80px;
+}
+
+/* ── Individual brands ── */
+.brand-icon-hermes {
+  background-image: url('hermes.svg');
+  aspect-ratio: 500 / 330;
+}
+
+.brand-icon-chanel {
+  background-image: url('chanel.svg');
+  aspect-ratio: 200 / 270;
+}
+
+.brand-icon-brioni {
+  background-image: url('brioni.svg');
+  aspect-ratio: 400 / 155;
+}
+
+.brand-icon-kiton {
+  background-image: url('kiton.svg');
+  aspect-ratio: 290 / 105;
+}
+
+.brand-icon-louis-vuitton {
+  background-image: url('louis-vuitton.svg');
+  aspect-ratio: 192 / 248;
+}
+
+/* ── Size scale ── */
+.brand-icon-xs  { width:  60px; }
+.brand-icon-sm  { width: 100px; }
+.brand-icon-md  { width: 160px; }
+.brand-icon-lg  { width: 240px; }
+.brand-icon-xl  { width: 320px; }
+
+/* ── Invert for dark backgrounds ── */
+.brand-icon-light { filter: invert(1) brightness(2); }
+
+/* ── CSS custom-property colour override ──
+   e.g. <span style="--brand-color:#c4a86a" class="brand-icon brand-icon-chanel">
+   Not applicable to background-image SVGs; for inline SVG use currentColor instead. */

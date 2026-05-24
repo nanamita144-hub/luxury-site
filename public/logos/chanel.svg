@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 270" role="img" aria-label="Chanel">
+  <title>Chanel</title>
+  <defs>
+    <clipPath id="chanel-upper">
+      <rect x="0" y="0" width="200" height="100"/>
+    </clipPath>
+    <clipPath id="chanel-lower">
+      <rect x="0" y="100" width="200" height="100"/>
+    </clipPath>
+  </defs>
+
+  <!-- Right C, lower half only — sits behind left C in bottom half -->
+  <path clip-path="url(#chanel-lower)"
+        d="M 130,40 A 60,60 0 1,1 130,160"
+        fill="none" stroke="#111" stroke-width="17"/>
+
+  <!-- Left C, full — in front in lower half -->
+  <path d="M 70,40 A 60,60 0 1,0 70,160"
+        fill="none" stroke="#111" stroke-width="17"/>
+
+  <!-- Right C, upper half only — in front of left C in top half -->
+  <path clip-path="url(#chanel-upper)"
+        d="M 130,40 A 60,60 0 1,1 130,160"
+        fill="none" stroke="#111" stroke-width="17"/>
+
+  <text x="100" y="240"
+        text-anchor="middle"
+        font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+        font-size="22"
+        font-weight="700"
+        letter-spacing="10"
+        fill="#111">CHANEL</text>
+</svg>
